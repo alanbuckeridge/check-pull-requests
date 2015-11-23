@@ -101,3 +101,6 @@ hs_err_pid*
 # sftp configuration file
 sftp-config.json
 
+# Don't allow sensitive configuration info to be checked in
+config.properties
+
