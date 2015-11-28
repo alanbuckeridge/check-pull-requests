@@ -18,13 +18,12 @@ Atlassian provides REST APIs for [Stash](https://developer.atlassian.com/static/
 
 Specifically
 
-- Call Stash to get the latest outgoing pull requests for the user
+- Call Stash to get the latest open pull requests for the user
 - For each pull request:
     - Get the status (open, merged, declined)
     - Get the reviewers and whether they've approved or not
-    - Extract the latest changeset
-        - Query Bamboo to get the build status of the changeset
     - Find out if the pull request needs to be rebased/merged with master
+    - Find out if the pull request has a green build
     
     
 ## Format

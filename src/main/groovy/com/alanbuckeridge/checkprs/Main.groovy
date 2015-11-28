@@ -6,9 +6,28 @@ package com.alanbuckeridge.checkprs
 
 def config = new ConfigSlurper().parse(new File("config.properties").toURI().toURL())
 
-def prs = new StashUserRepo(config).getPRs()
+println '-' * 80
+
+def prs = new StashUserRepo(config).getOpenPRs()
+
 prs.each { pr ->
-    println "${pr.title} (${pr.state})"
-    pr.reviewers.each { r -> println "${r.name}: ${r.approved}" }
+    println "${pr.title}"
+    println "State: ${pr.state}"
+    if (State.OPEN == pr.state) {
+        println "Approvals:"
+        if (pr.reviewers) {
+            pr.reviewers.each { r -> println "\t${r.name}: ${r.approved}" }
+        }
+        else {
+            println "\t(No reviewers assigned)"
+        }
+        println "Needs rebase? ${pr.mergeInfo.rebaseNeeded}"
+        println "Ready for merge? ${pr.mergeInfo.readyForMerge}"
+        pr.mergeInfo.vetoes.each {
+            println "* ${it}"
+        }
+    }
+
+    println '-' * 80
 }
 
