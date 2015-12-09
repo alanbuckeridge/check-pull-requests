@@ -15,11 +15,11 @@ def prs = new StashUserRepo(config).getOpenPRs()
 
 prs.each { pr ->
     println "${pr.title}"
-    println "State: ${pr.state}"
     if (State.OPEN == pr.state) {
         println "Approvals:"
         if (pr.reviewers) {
-            pr.reviewers.each { r -> println "\t${r.name}: ${greenIfTrue(r.approved)}" }
+            pr.reviewers.each { r -> print "\t${r.name}: ${greenIfTrue(r.approved)}   " }
+            println()
         }
         else {
             println "\t(No reviewers assigned)"
