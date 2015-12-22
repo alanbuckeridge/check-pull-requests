@@ -9,26 +9,23 @@ ANSI_GREEN = "\u001B[32m"
 
 def config = new ConfigSlurper().parse(new File("config.properties").toURI().toURL())
 
-println '-' * 80
 
-def prs = new StashUserRepo(config).getOpenPRs()
-
-prs.each { pr ->
+new StashUserRepo(config).openPRs.each { pr ->
+    println '-' * 80
     println "${pr.title}"
-    if (State.OPEN == pr.state) {
-        println "Approvals:"
-        if (pr.reviewers) {
-            pr.reviewers.each { r -> print "\t${r.name}: ${greenIfTrue(r.approved)}   " }
-            println()
-        }
-        else {
-            println "\t(No reviewers assigned)"
-        }
-        println "Needs rebase? ${redIfTrue(pr.mergeInfo.rebaseNeeded)}"
-        println "Ready for merge? ${pr.mergeInfo.readyForMerge}"
-        pr.mergeInfo.vetoes.each {
-            println "* ${it}"
-        }
+    println "Approvals:"
+
+    if (pr.reviewers) {
+        pr.reviewers.each { r -> print "\t${r.name}: ${greenIfTrue(r.approved)}   " }
+        println()
+    }
+    else {
+        println "\t(No reviewers assigned)"
+    }
+    println "Needs rebase? ${redIfTrue(pr.mergeInfo.rebaseNeeded)}"
+    println "Ready for merge? ${pr.mergeInfo.readyForMerge}"
+    pr.mergeInfo.vetoes.each {
+        println "* ${it}"
     }
 
     println '-' * 80

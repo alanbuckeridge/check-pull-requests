@@ -19,10 +19,7 @@ class PullRequest {
         open = Boolean.valueOf(prJson.open)
         latestChangeset = prJson.fromRef.latestChangeset
         prJson.reviewers.each {
-            def reviewer = new Reviewer()
-            reviewer.name = it.user.name
-            reviewer.approved = Boolean.valueOf(it.approved)
-            reviewers << reviewer
+            this.reviewers << new Reviewer(name: it.user.name, approved: it.approved)
         }
     }
 }
